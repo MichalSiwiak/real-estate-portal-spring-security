@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class DemoController {
@@ -28,6 +29,15 @@ public class DemoController {
     public String showHome() {
 
         return "home";
+    }
+
+    @GetMapping("/flats")
+    public String getAllFlats(Model theModel) {
+
+        List<Flat> topics = flatService.getFlats();
+        theModel.addAttribute("flats", topics);
+
+        return "flats-form";
     }
 
     @RequestMapping(value = "/image-manual-response/{imageId}", method = RequestMethod.GET)
