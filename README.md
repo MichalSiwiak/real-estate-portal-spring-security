@@ -1,1 +1,1 @@
-# spring-mvc-example-tomcat
+# Example of a real estate portal

@@ -175,7 +175,8 @@
                         <%-- <button type="submit" class="btn btn-primary my-4 w-25">Submit</button>--%>
 
                         <button class="btn text-light btn-primary mb-0 my-4" type="submit">
-                            <i class="fa fa-plus-square fa-lg" aria-hidden="true"></i> &nbsp; Submit</button>
+                            <i class="fa fa-plus-square fa-lg" aria-hidden="true"></i> &nbsp; Submit
+                        </button>
                         <a class="btn text-light btn-primary float-right mb-0 mt-4"
                            href="${pageContext.request.contextPath}/demo">
                             <i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp; Back</a>

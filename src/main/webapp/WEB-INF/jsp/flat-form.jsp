@@ -128,15 +128,16 @@
                     <div class="col-md-6">
                         <form:form action="${pageContext.request.contextPath}/logout" method="post">
                             <button class="btn text-light mb-4 btn-primary float-right" type="submit">
-                                <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> &nbsp; LOGOUT</button>
+                                <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> &nbsp; LOGOUT
+                            </button>
                         </form:form>
                     </div>
                 </div>
 
-                <div class="row" >
+                <div class="row">
                     <h3>${flat.title}</h3>
                 </div>
-                <div class="row" >
+                <div class="row">
                     <p class="lead text-dark">${flat.content}</p>
                 </div>
                 <div class="row">
@@ -164,10 +165,11 @@
                             </table>
                         </div>
                         <p class="text-monospace text-muted text-left">Date: <fmt:formatDate value="${flat.date}"
-                                                                                             dateStyle="short" timeStyle="short"
+                                                                                             dateStyle="short"
+                                                                                             timeStyle="short"
                                                                                              type="both"/></p>
                         <p class="text-monospace text-muted text-left">User: ${flat.users.username}</p>
-                        <a class="btn text-light mb-4 btn-primary" href="${pageContext.request.contextPath}/demo" >
+                        <a class="btn text-light mb-4 btn-primary" href="${pageContext.request.contextPath}/demo">
                             <i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp; Back</a>
                     </div>
                     <div class="col-md-6">
