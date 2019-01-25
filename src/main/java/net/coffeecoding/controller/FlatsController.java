@@ -43,7 +43,7 @@ public class FlatsController {
         }
     }
 
-    @GetMapping("/flats-list")
+    @GetMapping("/demo")
     public String getAllFlats(Model theModel) {
         List<Flat> topics = flatService.getFlats();
         theModel.addAttribute("flats", topics);
@@ -51,7 +51,7 @@ public class FlatsController {
     }
 
     @RequestMapping(value = "/flat-image/{imageId}", method = RequestMethod.GET)
-    public void getImageAsByteArray(HttpServletResponse response, @PathVariable int imageId) throws IOException {
+    public void getImageOfFlat(HttpServletResponse response, @PathVariable int imageId) throws IOException {
         Flat flat = flatService.getFlat(imageId);
         byte[] byteArray = flat.getImage();
         response.setContentType("image/jpeg");
@@ -62,7 +62,7 @@ public class FlatsController {
     }
 
     @PostMapping("/uploadFlat")
-    public String singleFileUpload(@RequestParam("file") MultipartFile file,
+    public String uploadFlat(@RequestParam("file") MultipartFile file,
                                    @RequestParam("title") String title,
                                    @RequestParam("content") String content,
                                    @RequestParam("price") int price,
@@ -72,11 +72,11 @@ public class FlatsController {
                                    Principal principal,
                                    Model model) throws IOException {
         if (file.getOriginalFilename().isEmpty()) {
-            model.addAttribute("msg", "Please select a valid file!");
+            model.addAttribute("error", "Please select a valid file!");
         } else if (file.getSize() > 5242880) {
-            model.addAttribute("msg", "File can not be larger than 5 MB!");
+            model.addAttribute("error", "File can not be larger than 5 MB!");
         } else if (!file.getContentType().equals("image/jpeg")) {
-            model.addAttribute("msg", "Please select a valid format!");
+            model.addAttribute("error", "Please select a valid format!");
         } else {
             Flat flat = new Flat();
             flat.setTitle(title);
@@ -89,8 +89,7 @@ public class FlatsController {
             flat.setImage(file.getBytes());
             flat.setUsers(usersService.getUser(principal.getName()));
             flatService.saveFlat(flat);
-            model.addAttribute("done", "File uploaded successfully.");
-            System.out.println("DONE");
+            model.addAttribute("success", "File uploaded successfully.");
         }
         return "new-flat-form";
     }

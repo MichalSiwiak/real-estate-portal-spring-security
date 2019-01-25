@@ -72,7 +72,7 @@ public class RegistrationController {
 
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         encodedPassword = "{bcrypt}" + encodedPassword;
-        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_EMPLOYEE");
+        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
         org.springframework.security.core.userdetails.User tempUser = new org.springframework.security.core.userdetails.User(userName, encodedPassword, authorities);
         userDetailsManager.createUser(tempUser);
         logger.info("Successfully created user: " + userName);

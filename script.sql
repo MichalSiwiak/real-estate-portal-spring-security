@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `realestateportal`
+CREATE DATABASE  IF NOT EXISTS `realestateportal`;
 
 USE `realestateportal`;
 DROP TABLE IF EXISTS `users`;
@@ -12,9 +12,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users`
 VALUES
-('john','{bcrypt}$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K',1,'2008-01-01 00:00:01'),
-('mary','{bcrypt}$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K',1,'2008-01-01 00:00:01'),
-('susan','{bcrypt}$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K',1,'2008-01-01 00:00:01');
+('admin','{bcrypt}$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K',1,'2008-01-01 00:00:01'),
+('user','{bcrypt}$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K',1,'2008-01-01 00:00:01');
 
 DROP TABLE IF EXISTS `authorities`;
 CREATE TABLE `authorities` (
@@ -26,11 +25,8 @@ CREATE TABLE `authorities` (
 
 INSERT INTO `authorities`
 VALUES
-('john','ROLE_EMPLOYEE'),
-('mary','ROLE_EMPLOYEE'),
-('mary','ROLE_MANAGER'),
-('susan','ROLE_EMPLOYEE'),
-('susan','ROLE_ADMIN');
+('user','ROLE_USER'),
+('admin','ROLE_ADMIN');
 
 DROP TABLE IF EXISTS `flat`;
 CREATE TABLE `flat` (
