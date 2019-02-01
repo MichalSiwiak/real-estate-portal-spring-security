@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 
 <head>
@@ -19,8 +18,8 @@
           type="text/css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.standalone.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/now-ui-kit.css" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://www.coffeecoding.net/resources/css/now-ui-kit.css" type="text/css">
+    <link rel="stylesheet" href="https://www.coffeecoding.net/resources/css/style.css" type="text/css">
     <link rel="icon" href="resources/img/favicon.png">
     <!-- PAGE scripts -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -33,6 +32,19 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js"></script>
+    <style>
+        .avatar {
+            vertical-align: middle;
+            width: 150px;
+            height: 100px;
+            border-radius: 5%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        td {
+            height: 100px;
+            vertical-align: middle !important;
+        }
+    </style>
 </head>
 
 
@@ -87,7 +99,8 @@
                         class="">DESCRIPTION
                 </text>
                 </a>
-                <a href="/resume" class="navbar-brand d-flex align-items-center"><i
+                <a href="https://coffeecoding.net/resources/img/cv_msiwiak.pdf"
+                   class="navbar-brand d-flex align-items-center" target="_blank"><i
                         class="fa fa-address-card fa-2x lead fa-fw d-inline-block" aria-hidden="true"></i>&nbsp;&nbsp;<text
                         class="">RESUME
                 </text>

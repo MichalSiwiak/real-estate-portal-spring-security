@@ -37,7 +37,7 @@ CREATE TABLE `flat` (
   `price` INT NOT NULL,
   `surface` INT NOT NULL,
   `rooms` INT NOT NULL,
-  `city` INT NOT NULL,
+  `city` VARCHAR(200) NOT NULL,
   `image` longblob,
   `users` VARCHAR(50),
   PRIMARY KEY (`ID`),
