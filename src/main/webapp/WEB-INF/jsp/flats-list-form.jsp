@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 
 <head>
@@ -40,6 +41,7 @@
             border-radius: 5%;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
+
         td {
             height: 100px;
             vertical-align: middle !important;
@@ -116,14 +118,16 @@
         </div>
 
 
-        <div class="text-center py-4 bg-secondary"
-             style="	background-image: linear-gradient(to left, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.9));	background-position: top left;	background-size: 100%;	background-repeat: repeat;">
+        <div class="text-center mb-3 py-1 bg-info"
+             style="	background-position: top left;	background-size: 100%;	background-repeat: repeat;">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-0">
-                        <h1 class="text-left text-primary">Example of a real estate portal</h1>
-                        <p class="lead text-left"></p>
+                    <div class="m-0 mt-2 col-md-8 p-2">
+                        <h1 class="text-left mt-5"> Real Estate Portal</h1>
                     </div>
+                    <div class="col-md-4 w-25"><img class="card-img-top" src="resources/img/house.jpg"
+                                                    alt="Card image cap"
+                                                    width="600"></div>
                 </div>
             </div>
         </div>
@@ -131,24 +135,26 @@
 
         <div class="pt-0 pb-5">
             <div class="container">
-
-                <div class="row my-3">
-                    <div class="col-md-6">
-                        <h4 class="m-0 p-0">
-                            Welcome: <security:authentication property="principal.username"/>
-                        </h4>
+                <security:authorize access="hasAnyRole('USER', 'ADMIN')">
+                    <div class="row my-3">
+                        <div class="col-md-6">
+                            <h4 class="m-0 p-0">
+                                Logged: <security:authentication property="principal.username"/>
+                            </h4>
+                        </div>
+                        <div class="col-md-6">
+                            <form:form action="${pageContext.request.contextPath}/logout" method="post">
+                                <button class="btn text-light mb-4 btn-primary float-right" type="submit">
+                                    <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> &nbsp; LOGOUT
+                                </button>
+                            </form:form>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <form:form action="${pageContext.request.contextPath}/logout" method="post">
-                            <button class="btn text-light mb-4 btn-primary float-right" type="submit">
-                                <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> &nbsp; LOGOUT</button>
-                        </form:form>
-                    </div>
-                </div>
-
+                </security:authorize>
                 <div class="row">
                     <div class="col-md-12">
-                        <a class="btn text-light mb-4 btn-primary" href="${pageContext.request.contextPath}/new-flat">
+                        <a class="btn text-light mb-4 mt-4 btn-primary"
+                           href="${pageContext.request.contextPath}/new-flat">
                             <i class="fa fa-plus-square fa-lg" aria-hidden="true"></i> &nbsp; NEW FLAT</a>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover table-striped table-borderless">
