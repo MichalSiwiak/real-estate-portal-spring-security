@@ -15,15 +15,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.nio.file.Files;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.List;
 
 
 @Controller
@@ -33,10 +35,9 @@ public class FlatsController {
     private FlatService flatService;
     @Autowired
     private UsersService usersService;
-
-
     @Autowired
     private ServletContext servletContext;
+
 
     @GetMapping("/new-flat")
     public String newFlat() {
@@ -56,12 +57,12 @@ public class FlatsController {
 
     @GetMapping("/demo")
     public String getAllFlats(Model model) {
-        List<Flat> topics = flatService.getFlats();
+        List<Flat> flats = flatService.getFlats();
         Filter filter = new Filter();
         List<String> cities = flatService.findDistinctByCity();
 
         model.addAttribute("cities", cities);
-        model.addAttribute("flats", topics);
+        model.addAttribute("flats", flats);
         model.addAttribute("filter", filter);
         return "flats-list-form";
     }
@@ -71,6 +72,9 @@ public class FlatsController {
         List<Flat> byCityEquals = flatService.findByCityEquals(filter.getCity());
         List<Flat> byTitleLike = flatService.findByTitleLike(filter.getTitle());
         List<Flat> byPriceBetween = flatService.findByPriceBetween(filter.getMinPrice(), filter.getMaxPrice());
+        System.out.println(flatService.findMaxPrice());
+        System.out.println(flatService.findMinPrice());
+
         return "flats-list-form";
     }
 
@@ -78,6 +82,17 @@ public class FlatsController {
     public void getImageOfFlat(HttpServletResponse response, @PathVariable int imageId) throws IOException {
         Flat flat = flatService.getFlat(imageId);
         byte[] byteArray = flat.getImage();
+        response.setContentType("image/jpeg");
+        OutputStream os = response.getOutputStream();
+        os.write(byteArray);
+        os.flush();
+        os.close();
+    }
+
+    @RequestMapping(value = "/flat-avatar/{imageId}", method = RequestMethod.GET)
+    public void getAvatarOfFlat(HttpServletResponse response, @PathVariable int imageId) throws IOException {
+        Flat flat = flatService.getFlat(imageId);
+        byte[] byteArray = flat.getAvatar();
         response.setContentType("image/jpeg");
         OutputStream os = response.getOutputStream();
         os.write(byteArray);
@@ -111,6 +126,7 @@ public class FlatsController {
             flat.setRooms(rooms);
             flat.setCity(city);
             flat.setImage(file.getBytes());
+            flat.setAvatar(resizeImage(file.getBytes(), 150, 100));
             flat.setUsers(usersService.getUser(principal.getName()));
             flatService.saveFlat(flat);
             model.addAttribute("success", "File uploaded successfully.");
@@ -154,7 +170,10 @@ public class FlatsController {
 
 
         for (int i = 0; i < 200; i++) {
+
             Flat flat = new Flat();
+            byte[] image = Files.readAllBytes(files[new Random().nextInt(files.length)].toPath());
+
             flat.setCity(Cities.randomCities().toString());
             flat.setTitle(titles.get(new Random().nextInt(14)));
             flat.setContent(contents.get(new Random().nextInt(4)));
@@ -162,7 +181,8 @@ public class FlatsController {
             flat.setSurface(randInt(30, 100));
             flat.setPrice(randInt(1, 10) * 113000);
             flat.setDate(new Timestamp(new Date().getTime()));
-            flat.setImage(Files.readAllBytes(files[new Random().nextInt(files.length)].toPath()));
+            flat.setImage(image);
+            flat.setAvatar(resizeImage(image, 150, 100));
             flat.setUsers(usersService.getUser("admin"));
 
             flatService.saveFlat(flat);
@@ -177,4 +197,31 @@ public class FlatsController {
         int randomNum = random.nextInt((max - min) + 1) + min;
         return randomNum;
     }
+
+    private byte[] resizeImage(byte[] byteArray, int width, int height) {
+
+        byte[] resizedImageByteArray = new byte[0];
+
+        try {
+            BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(byteArray));
+            int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+
+            BufferedImage bufferedImage = new BufferedImage(width, height, type);
+            Graphics2D g = bufferedImage.createGraphics();
+            g.drawImage(originalImage, 0, 0, width, height, null);
+            g.dispose();
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "jpg", baos);
+            baos.flush();
+            resizedImageByteArray = baos.toByteArray();
+            baos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return resizedImageByteArray;
+    }
+
+
 }

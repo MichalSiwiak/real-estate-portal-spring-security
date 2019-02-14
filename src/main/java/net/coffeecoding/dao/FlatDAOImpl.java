@@ -90,4 +90,22 @@ public class FlatDAOImpl implements FlatDAO {
 
         return flats;
     }
+
+    @Override
+    public int findMaxPrice() {
+        Session currentSession = sessionFactory.getCurrentSession();
+        Query<Integer> query =
+                currentSession.createQuery("SELECT MAX(f.price) FROM Flat f;",
+                        Integer.class);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public int findMinPrice() {
+        Session currentSession = sessionFactory.getCurrentSession();
+        Query<Integer> query =
+                currentSession.createQuery("SELECT MIN(f.price) FROM Flat f;",
+                        Integer.class);
+        return query.getSingleResult();
+    }
 }

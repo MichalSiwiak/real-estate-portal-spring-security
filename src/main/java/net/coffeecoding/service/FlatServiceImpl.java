@@ -61,4 +61,14 @@ public class FlatServiceImpl implements FlatService {
     public List<Flat> findByPriceBetween(int minPrice, int maxPrice) {
         return flatDAO.findByPriceBetween(minPrice, maxPrice);
     }
+
+    @Override
+    public int findMaxPrice() {
+        return flatDAO.findMaxPrice();
+    }
+
+    @Override
+    public int findMinPrice() {
+        return flatDAO.findMinPrice();
+    }
 }

@@ -217,7 +217,7 @@
                                             </c:url> <a href="${url}">${flat.title}</a>
                                         </td>
                                         <td><img class="avatar"
-                                                 src="${pageContext.request.contextPath}/flat-image/${flat.id}">
+                                                 src="${pageContext.request.contextPath}/flat-avatar/${flat.id}">
                                         </td>
                                         <td>${flat.city}</td>
                                         <td>${flat.surface}</td>

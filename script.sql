@@ -39,6 +39,7 @@ CREATE TABLE `flat` (
   `rooms` INT NOT NULL,
   `city` VARCHAR(200) NOT NULL,
   `image` longblob,
+  `avatar` longblob,
   `users` VARCHAR(50),
   PRIMARY KEY (`ID`),
   FOREIGN KEY (`users`) REFERENCES users(username) ON DELETE SET NULL

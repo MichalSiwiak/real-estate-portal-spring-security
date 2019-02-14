@@ -21,6 +21,7 @@ public class Flat {
     private int rooms;
     private String city;
     private byte[] image;
+    private byte[] avatar;
     @ManyToOne
     @JoinColumn(name = "users")
     private Users users;
@@ -97,6 +98,14 @@ public class Flat {
         this.image = image;
     }
 
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
+    }
+
     public Users getUsers() {
         return users;
     }
@@ -117,6 +126,7 @@ public class Flat {
                 ", rooms=" + rooms +
                 ", city='" + city + '\'' +
                 ", image=" + Arrays.toString(image) +
+                ", avatar=" + Arrays.toString(avatar) +
                 ", users=" + users +
                 '}';
     }

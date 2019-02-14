@@ -13,4 +13,6 @@ public interface FlatService {
     public List<Flat> findByCityEquals(String cityName);
     public List<Flat> findByTitleLike(String title);
     public List<Flat> findByPriceBetween(int minPrice, int maxPrice);
+    public int findMaxPrice();
+    public int findMinPrice();
 }
