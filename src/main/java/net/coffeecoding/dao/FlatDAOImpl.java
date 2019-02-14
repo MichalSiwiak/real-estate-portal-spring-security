@@ -33,8 +33,61 @@ public class FlatDAOImpl implements FlatDAO {
     }
 
     @Override
-    public void saveFlat(Flat theFlat) {
+    public void saveFlat(Flat flat) {
         Session currentSession = sessionFactory.getCurrentSession();
-        currentSession.saveOrUpdate(theFlat);
+        currentSession.saveOrUpdate(flat);
+    }
+
+    @Override
+    public void deleteFlat(Flat flat) {
+        Session currentSession = sessionFactory.getCurrentSession();
+        currentSession.delete(flat);
+    }
+
+    @Override
+    public List<String> findDistinctByCity() {
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        Query<String> query =
+                currentSession.createQuery("select DISTINCT(f.city) from Flat f",
+                        String.class);
+        List<String> cities = query.getResultList();
+        return cities;
+    }
+
+    @Override
+    public List<Flat> findByCityEquals(String cityName) {
+        Session currentSession = sessionFactory.getCurrentSession();
+        Query<Flat> query =
+                currentSession.createQuery("select f from Flat f where f.city = :cityName ",
+                        Flat.class);
+        query.setParameter("cityName", cityName);
+        List<Flat> flats = query.getResultList();
+
+        return flats;
+    }
+
+    @Override
+    public List<Flat> findByTitleLike(String title) {
+        Session currentSession = sessionFactory.getCurrentSession();
+        Query<Flat> query =
+                currentSession.createQuery("select f from Flat f where lower(f.title) like lower(concat('%', :title,'%'))",
+                        Flat.class);
+        query.setParameter("title", title);
+        List<Flat> flats = query.getResultList();
+        return flats;
+    }
+
+    @Override
+    public List<Flat> findByPriceBetween(int minPrice, int maxPrice) {
+        Session currentSession = sessionFactory.getCurrentSession();
+        Query<Flat> query =
+                currentSession.createQuery("select f from Flat f where f.price BETWEEN :minPrice AND :maxPrice ",
+                        Flat.class);
+        query.setParameter("minPrice", minPrice);
+        query.setParameter("maxPrice", maxPrice);
+        List<Flat> flats = query.getResultList();
+
+        return flats;
     }
 }

@@ -28,12 +28,37 @@ public class FlatServiceImpl implements FlatService {
 
     @Override
     @Transactional
-    public void saveFlat(Flat theTopic) {
-        flatDAO.saveFlat(theTopic);
+    public void saveFlat(Flat flat) {
+        flatDAO.saveFlat(flat);
+    }
+
+    @Override
+    @Transactional
+    public void deleteFlat(Flat flat) {
+        flatDAO.deleteFlat(flat);
+    }
+
+    @Override
+    @Transactional
+    public List<String> findDistinctByCity() {
+        return flatDAO.findDistinctByCity();
+    }
+
+    @Override
+    @Transactional
+    public List<Flat> findByCityEquals(String cityName) {
+        return flatDAO.findByCityEquals(cityName);
+    }
+
+    @Override
+    @Transactional
+    public List<Flat> findByTitleLike(String title) {
+        return flatDAO.findByTitleLike(title);
+    }
+
+    @Override
+    @Transactional
+    public List<Flat> findByPriceBetween(int minPrice, int maxPrice) {
+        return flatDAO.findByPriceBetween(minPrice, maxPrice);
     }
 }
-
-
-
-
-

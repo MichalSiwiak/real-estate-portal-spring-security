@@ -2,6 +2,8 @@ package net.coffeecoding.controller;
 
 
 import net.coffeecoding.entity.Flat;
+import net.coffeecoding.model.Filter;
+import net.coffeecoding.refresh.Cities;
 import net.coffeecoding.service.FlatService;
 import net.coffeecoding.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.security.Principal;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -38,26 +39,38 @@ public class FlatsController {
     private ServletContext servletContext;
 
     @GetMapping("/new-flat")
-    public String showHome() {
+    public String newFlat() {
         return "new-flat-form";
     }
 
-
     @GetMapping("/flat")
-    public String viewNewFlat(@RequestParam("id") int id, Model model) {
+    public String showFlat(@RequestParam("id") int id, Model model) {
         if (id != 0) {
             Flat flat = flatService.getFlat(id);
             model.addAttribute("flat", flat);
             return "flat-form";
         } else {
-            return "/flats";
+            return "redirect:/demo";
         }
     }
 
     @GetMapping("/demo")
-    public String getAllFlats(Model theModel) {
+    public String getAllFlats(Model model) {
         List<Flat> topics = flatService.getFlats();
-        theModel.addAttribute("flats", topics);
+        Filter filter = new Filter();
+        List<String> cities = flatService.findDistinctByCity();
+
+        model.addAttribute("cities", cities);
+        model.addAttribute("flats", topics);
+        model.addAttribute("filter", filter);
+        return "flats-list-form";
+    }
+
+    @PostMapping("/demo")
+    public String submitFilters(@ModelAttribute("filter") Filter filter) {
+        List<Flat> byCityEquals = flatService.findByCityEquals(filter.getCity());
+        List<Flat> byTitleLike = flatService.findByTitleLike(filter.getTitle());
+        List<Flat> byPriceBetween = flatService.findByPriceBetween(filter.getMinPrice(), filter.getMaxPrice());
         return "flats-list-form";
     }
 
@@ -73,7 +86,7 @@ public class FlatsController {
     }
 
     @PostMapping("/uploadFlat")
-    public String uploadFlat(@RequestParam("file") MultipartFile file,
+    public String submitFlat(@RequestParam("file") MultipartFile file,
                              @RequestParam("title") String title,
                              @RequestParam("content") String content,
                              @RequestParam("price") int price,
@@ -108,32 +121,60 @@ public class FlatsController {
     @RequestMapping(value = "/refresh", produces = MediaType.TEXT_PLAIN_VALUE, method = RequestMethod.GET)
     public ResponseEntity<String> refresh() throws IOException {
 
-        File[] files = new File("C:\\Users\\msiwiak\\Desktop\\Nowy folder\\").listFiles();
+        List<Flat> flats = flatService.getFlats();
+        for (Flat flat : flats) {
+            flatService.deleteFlat(flat);
+        }
 
-        for (File file : files) {
-            if (file.isDirectory()) {
-                System.out.println("Directory: " + file.getName());
-                showFiles(file.listFiles()); // Calls same method again.
-            } else {
-                Flat flat = new Flat();
-                flat.setTitle("temp");
-                flat.setContent("temp");
-                flat.setDate(new Timestamp(new Date().getTime()));
-                flat.setPrice(666);
-                flat.setSurface(888);
-                flat.setRooms(888);
-                flat.setCity("temp");
-                flat.setImage(Files.readAllBytes(file.toPath()));
-                flat.setUsers(usersService.getUser("temp"));
-                flatService.saveFlat(flat);
-                System.out.println("File: " + file.getName());
-            }
+        File[] files = new File("/tmp/flats").listFiles();
+        Map<Integer, String> titles = new HashMap<>();
+        Map<Integer, String> contents = new HashMap<>();
+
+        titles.put(0, "Apartament trzypokojowy");
+        titles.put(1, "Centrum kamienica, cegła, blisko Akademia Medyczna, komunikacja miejska");
+        titles.put(2, "Sprzedam mieszkanie - 98m2. Dogodna lokalizacja");
+        titles.put(3, "Dom w atrakcyjnej cenie w stanie surowym zamkniętym");
+        titles.put(4, "Mieszkanie 3 pokoje centrum 465 000");
+        titles.put(5, "Apartament trzypokojowy o powierzchni 78,63 mkw, położony na osiedlu Eko-Park.");
+        titles.put(6, "Niesamowity Apartament Centrum 108m2");
+        titles.put(7, "DOBRA KOMUNIKACJA OTOCZENIE PARKÓW KOMFORTOWE OSIEDLE");
+        titles.put(8, "OSIEDLE TĘTNIĄCE ŻYCIEM I NOWOCZESNOŚCIĄ ");
+        titles.put(9, "Przestronne Mieszkanie Po Remoncie 46 m2");
+        titles.put(10, "PRESTIŻOWE MIEJSCE IDEALNE NA ODPOCZYNEK OSIEDLE GREEN ");
+        titles.put(11, "300m2 w jednym poziomie, 2 tarasy, garaż i komórka w cenie");
+        titles.put(12, "Sprzedam dom bezpośrednio");
+        titles.put(13, "BEZPOŚREDNIO DOM WOLNOSTOJĄCY");
+        titles.put(14, "Idealna inwestycja");
+
+        contents.put(0, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
+        contents.put(1, "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.");
+        contents.put(2, "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.");
+        contents.put(3, "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).");
+        contents.put(4, "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.");
+
+
+        for (int i = 0; i < 200; i++) {
+            Flat flat = new Flat();
+            flat.setCity(Cities.randomCities().toString());
+            flat.setTitle(titles.get(new Random().nextInt(14)));
+            flat.setContent(contents.get(new Random().nextInt(4)));
+            flat.setRooms(randInt(1, 10));
+            flat.setSurface(randInt(30, 100));
+            flat.setPrice(randInt(1, 10) * 113000);
+            flat.setDate(new Timestamp(new Date().getTime()));
+            flat.setImage(Files.readAllBytes(files[new Random().nextInt(files.length)].toPath()));
+            flat.setUsers(usersService.getUser("admin"));
+
+            flatService.saveFlat(flat);
+
         }
 
         return new ResponseEntity<>("Successfully refreshed database!", HttpStatus.OK);
     }
 
-    private void showFiles(File[] files) {
-
+    private int randInt(int min, int max) {
+        Random random = new Random();
+        int randomNum = random.nextInt((max - min) + 1) + min;
+        return randomNum;
     }
 }

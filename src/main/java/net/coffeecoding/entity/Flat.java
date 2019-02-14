@@ -1,6 +1,7 @@
 package net.coffeecoding.entity;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -102,5 +103,21 @@ public class Flat {
 
     public void setUsers(Users users) {
         this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return "Flat{" +
+                "id=" + id +
+                ", date=" + date +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", price=" + price +
+                ", surface=" + surface +
+                ", rooms=" + rooms +
+                ", city='" + city + '\'' +
+                ", image=" + Arrays.toString(image) +
+                ", users=" + users +
+                '}';
     }
 }

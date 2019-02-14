@@ -135,6 +135,8 @@
 
         <div class="pt-0 pb-5">
             <div class="container">
+
+
                 <security:authorize access="hasAnyRole('USER', 'ADMIN')">
                     <div class="row my-3">
                         <div class="col-md-6">
@@ -151,11 +153,44 @@
                         </div>
                     </div>
                 </security:authorize>
+
+
+                <div class="col-md-12 order-md-1 mb-4 p-0">
+                    <form:form modelAttribute="filter" method="POST">
+                        <div class="row mt-5">
+                            <div class="mb-3 col-md-3 text-center"><label>Select title like:</label>
+                                <form:input path="title" type="text" class="form-control text-center rounded-0"/>
+                            </div>
+                            <div class="mb-3 col-md-3 text-center"><label>Select city equals:</label>
+                                <form:input path="city" type="text" class="form-control text-center rounded-0"/>
+                            </div>
+                            <div class="mb-3 col-md-3 text-center"><label>Price from:</label>
+                                <form:input path="minPrice" type="number" class="form-control text-center rounded-0"/>
+                            </div>
+                            <div class="mb-3 col-md-3 text-center"><label>Price to:</label>
+                                <form:input path="maxPrice" type="number" class="form-control text-center rounded-0"/>
+                            </div>
+                        </div>
+                        <hr class="mb-4">
+                        <div class="row">
+                            <div class="col-md-4"><a class="btn text-light mt-0 mb-0 w-100 btn-secondary"
+                                                     href="${pageContext.request.contextPath}/new-flat">
+                                <i class="fa fa-plus-square fa-lg" aria-hidden="true"></i> &nbsp; NEW FLAT</a>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn w-100 btn-warning text-dark">Filter results</button>
+                            </div>
+                            <div class="col-md-4"><a class="btn w-100 btn-warning text-dark"
+                                                     href="${pageContext.request.contextPath}/demo">Clear
+                                filters</a>
+                            </div>
+                        </div>
+                    </form:form>
+                </div>
+
+
                 <div class="row">
                     <div class="col-md-12">
-                        <a class="btn text-light mb-4 mt-4 btn-primary"
-                           href="${pageContext.request.contextPath}/new-flat">
-                            <i class="fa fa-plus-square fa-lg" aria-hidden="true"></i> &nbsp; NEW FLAT</a>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover table-striped table-borderless">
                                 <thead class="thead-dark">
@@ -196,6 +231,8 @@
                         </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
 
@@ -209,8 +246,9 @@
         <p class="float-right">
             <a href="#">Back to top</a>
         </p>
-        <p>© Copyright 2018 coffeecoding.net - All rights reserved.<br>Contact: info@coffeecoding.net<br>Warsaw PL<br><a
-                href="https://www.coffeecoding.net/">Visit the homepage</a>
+        <p>© Copyright 2018 coffeecoding.net - All rights reserved.<br>Contact: info@coffeecoding.net<br>Warsaw
+            PL<br><a
+                    href="https://www.coffeecoding.net/">Visit the homepage</a>
         </p>
     </div>
 </footer>
