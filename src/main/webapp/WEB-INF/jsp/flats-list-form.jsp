@@ -162,13 +162,18 @@
                                 <form:input path="title" type="text" class="form-control text-center rounded-0"/>
                             </div>
                             <div class="mb-3 col-md-3 text-center"><label>Select city equals:</label>
-                                <form:input path="city" type="text" class="form-control text-center rounded-0"/>
+                                <form:select path="city" type="text" class="form-control text-center rounded-0">
+                                    <option selected="selected">All</option>
+                                    <c:forEach var="city" items="${cities}">
+                                        <option value=${city}>${city}</option>
+                                    </c:forEach>
+                                </form:select>
                             </div>
-                            <div class="mb-3 col-md-3 text-center"><label>Price from:</label>
-                                <form:input path="minPrice" type="number" class="form-control text-center rounded-0"/>
+                            <div class="mb-3 col-md-3 text-center"><label>Price from (min):</label>
+                                <form:input path="minPrice" type="number" min="1000" class="form-control text-center rounded-0"/>
                             </div>
-                            <div class="mb-3 col-md-3 text-center"><label>Price to:</label>
-                                <form:input path="maxPrice" type="number" class="form-control text-center rounded-0"/>
+                            <div class="mb-3 col-md-3 text-center"><label>Price to (max):</label>
+                                <form:input path="maxPrice" type="number" max="10000000" class="form-control text-center rounded-0"/>
                             </div>
                         </div>
                         <hr class="mb-4">

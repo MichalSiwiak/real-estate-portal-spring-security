@@ -63,11 +63,13 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
+    @Transactional
     public int findMaxPrice() {
         return flatDAO.findMaxPrice();
     }
 
     @Override
+    @Transactional
     public int findMinPrice() {
         return flatDAO.findMinPrice();
     }

@@ -59,8 +59,9 @@ public class FlatsController {
     public String getAllFlats(Model model) {
         List<Flat> flats = flatService.getFlats();
         Filter filter = new Filter();
+        filter.setMinPrice(flatService.findMinPrice());
+        filter.setMaxPrice(flatService.findMaxPrice());
         List<String> cities = flatService.findDistinctByCity();
-
         model.addAttribute("cities", cities);
         model.addAttribute("flats", flats);
         model.addAttribute("filter", filter);
@@ -69,11 +70,24 @@ public class FlatsController {
 
     @PostMapping("/demo")
     public String submitFilters(@ModelAttribute("filter") Filter filter) {
-        List<Flat> byCityEquals = flatService.findByCityEquals(filter.getCity());
-        List<Flat> byTitleLike = flatService.findByTitleLike(filter.getTitle());
+
+        List<Flat> byCityEquals;
+        if (filter.getCity() == "All")
+            byCityEquals = flatService.getFlats();
+        else
+            byCityEquals = flatService.findByCityEquals(filter.getCity());
+
+        List<Flat> byTitleLike;
+        if (filter.getTitle() == "")
+            byTitleLike = flatService.getFlats();
+        else
+            byCityEquals = flatService.findByTitleLike(filter.getTitle());
+
         List<Flat> byPriceBetween = flatService.findByPriceBetween(filter.getMinPrice(), filter.getMaxPrice());
-        System.out.println(flatService.findMaxPrice());
-        System.out.println(flatService.findMinPrice());
+
+
+        System.out.println(filter.toString());
+
 
         return "flats-list-form";
     }
@@ -142,7 +156,7 @@ public class FlatsController {
             flatService.deleteFlat(flat);
         }
 
-        File[] files = new File("/tmp/flats").listFiles();
+        File[] files = new File("/home/michal/Pobrane/flats").listFiles();
         Map<Integer, String> titles = new HashMap<>();
         Map<Integer, String> contents = new HashMap<>();
 
