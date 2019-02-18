@@ -154,7 +154,7 @@
                           </span>
                                                     </div>
                                                     <input type="text" name="username" class="form-control"
-                                                           placeholder="Username...">
+                                                           placeholder="Username ...">
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3">
@@ -165,7 +165,7 @@
                           </span>
                                                     </div>
                                                     <input type="password" name="password" class="form-control"
-                                                           placeholder="Password...">
+                                                           placeholder="Password ...">
                                                 </div>
                                             </div>
                                             <button type="submit"
@@ -173,7 +173,9 @@
                                                 Login
                                             </button>
                                         </form:form>
-                                        <p class="">Forgot Password?</p>
+                                        <p class=""><a
+                                                href="${pageContext.request.contextPath}/register/remind-password">Forgot
+                                            Password?</a></p>
                                         <br> <br>
                                         <p class="mt-5 mb-0" style=""><a
                                                 href="${pageContext.request.contextPath}/register/showRegistrationForm">

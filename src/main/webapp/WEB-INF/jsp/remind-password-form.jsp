@@ -111,7 +111,7 @@
                     <div class="m-0 mt-2 col-md-8 p-2">
                         <h1 class="text-left mt-5"> Real Estate Portal</h1>
                     </div>
-                    <div class="col-md-4 w-25"><img class="card-img-top" src=""
+                    <div class="col-md-4 w-25"><img class="card-img-top" src="resources/img/house.jpg"
                                                     alt="Card image cap"
                                                     width="600"></div>
                 </div>
@@ -128,18 +128,21 @@
                                 <div class="row mt-5">
                                     <div class="col-md-12">
                                         <h5 class="mb-4">
-                                            <b>SIGN UP</b>
+                                            Enter email to remind your password:
                                         </h5>
                                     </div>
-                                    <c:if test="${registrationError != null}">
-                                        <div class="alert alert-danger col-xs-offset-1 col-xs-10 w-100 text-light"> ${registrationError} </div>
+                                    <c:if test="${error != null}">
+                                        <div class="alert alert-danger col-xs-offset-1 col-xs-10 w-100 text-light"> ${error} </div>
+                                    </c:if>
+                                    <c:if test="${success != null}">
+                                        <div class="alert alert-success col-xs-offset-1 col-xs-10 w-100 text-light"> ${success} </div>
                                     </c:if>
                                 </div>
                                 <div class="row pt-2 mt-0">
                                     <div class="col">
                                         <form:form
-                                                action="${pageContext.request.contextPath}/register/processRegistrationForm"
-                                                modelAttribute="user" autocomplete="off">
+                                                action="${pageContext.request.contextPath}/register/remind-password"
+                                                autocomplete="off">
                                             <div class="form-group mb-2">
                                                 <div class="input-group border-0">
                                                     <div class="input-group-prepend">
@@ -147,25 +150,13 @@
                             <i class="fa fa-envelope text-light" aria-hidden="true"></i>
                           </span>
                                                     </div>
-                                                    <form:input path="userName" type="email" placeholder="E-mail ..."
-                                                                class="form-control"/>
-                                                </div>
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <div class="input-group border-0">
-                                                    <div class="input-group-prepend ">
-                          <span class="input-group-text">
-                            <i class="fa fa-lock fa-lg text-light" aria-hidden="true"></i>
-                          </span>
-                                                    </div>
-                                                    <form:password path="password" placeholder="Password ..."
-                                                                   class="form-control"/>
+                                                    <input name="email" type="email" placeholder="E-mail ..."
+                                                           class="form-control">
                                                 </div>
                                             </div>
                                             <button type="submit"
                                                     class="btn mt-4 mb-3 rounded btn-lg btn-primary text-light w-100">
-                                                Get
-                                                Started
+                                                Remind Password
                                             </button>
                                             <p class="mt-5 mb-0" style=""><a
                                                     href="${pageContext.request.contextPath}/loginPage">Back <i

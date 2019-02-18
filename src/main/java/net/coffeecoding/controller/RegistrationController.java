@@ -16,11 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import net.coffeecoding.user.User;
 
@@ -44,6 +40,27 @@ public class RegistrationController {
         theModel.addAttribute("user", new User());
         return "registration-form";
     }
+
+    @GetMapping("/remind-password")
+    public String remindPasswordGET() {
+        return "remind-password-form";
+    }
+
+
+    @PostMapping("/remind-password")
+    public String remindPasswordPOST(@RequestParam("email") String email, Model model) {
+
+        boolean userExists = doesUserExist(email);
+
+        if (userExists) {
+            model.addAttribute("success", "The password has been sent to the email.");
+        } else {
+            model.addAttribute("error", "E-mail is not assigned to any user.");
+        }
+
+        return "remind-password-form";
+    }
+
 
     @PostMapping("/processRegistrationForm")
     public String processRegistrationForm(
