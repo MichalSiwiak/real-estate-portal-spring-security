@@ -160,21 +160,21 @@ public class FlatsController {
         Map<Integer, String> titles = new HashMap<>();
         Map<Integer, String> contents = new HashMap<>();
 
-        titles.put(0, "Apartament trzypokojowy");
-        titles.put(1, "Centrum kamienica, cegła, blisko Akademia Medyczna, komunikacja miejska");
-        titles.put(2, "Sprzedam mieszkanie - 98m2. Dogodna lokalizacja");
-        titles.put(3, "Dom w atrakcyjnej cenie w stanie surowym zamkniętym");
-        titles.put(4, "Mieszkanie 3 pokoje centrum 465 000");
-        titles.put(5, "Apartament trzypokojowy o powierzchni 78,63 mkw, położony na osiedlu Eko-Park.");
-        titles.put(6, "Niesamowity Apartament Centrum 108m2");
-        titles.put(7, "DOBRA KOMUNIKACJA OTOCZENIE PARKÓW KOMFORTOWE OSIEDLE");
-        titles.put(8, "OSIEDLE TĘTNIĄCE ŻYCIEM I NOWOCZESNOŚCIĄ ");
-        titles.put(9, "Przestronne Mieszkanie Po Remoncie 46 m2");
-        titles.put(10, "PRESTIŻOWE MIEJSCE IDEALNE NA ODPOCZYNEK OSIEDLE GREEN ");
-        titles.put(11, "300m2 w jednym poziomie, 2 tarasy, garaż i komórka w cenie");
-        titles.put(12, "Sprzedam dom bezpośrednio");
-        titles.put(13, "BEZPOŚREDNIO DOM WOLNOSTOJĄCY");
-        titles.put(14, "Idealna inwestycja");
+        titles.put(0, "A three-room apartment");
+        titles.put(1, "Centrum tenement house, brick, close to Medical Academy, public transport");
+        titles.put(2, "I will sell a flat - 98 sq m. Convenient location");
+        titles.put(3, "House at an attractive price in the unfinished state");
+        titles.put(4, "Apartment 3 rooms center 465 000");
+        titles.put(5, "A three-room apartment with an area of 78.63 sq m, located on the Eko-Park estate");
+        titles.put(6, "Amazing Apartment Center 108m2");
+        titles.put(7, "GOOD COMMUNICATION THE ENVIRONMENT OF THE COMFORTABLE SEATS");
+        titles.put(8, "A GARDEN AND A MODERN CAPACITY PURPOSE");
+        titles.put(9, "Spacious 46 sq m renovated apartment");
+        titles.put(10, "A PRESTIGIOUS PLACE PERFECT FOR THE REST OF GREEN HOUSING");
+        titles.put(11, "300m2 in one level, 2 terraces, garage and cell included");
+        titles.put(12, "I will sell the house directly");
+        titles.put(13, "DIRECTLY FREELANDED HOUSE");
+        titles.put(14, "The perfect investment");
 
         contents.put(0, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
         contents.put(1, "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.");

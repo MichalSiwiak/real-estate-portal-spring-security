@@ -111,7 +111,7 @@
                     <div class="m-0 mt-2 col-md-8 p-2">
                         <h1 class="text-left mt-5"> Real Estate Portal</h1>
                     </div>
-                    <div class="col-md-4 w-25"><img class="card-img-top" src="resources/img/house.jpg"
+                    <div class="col-md-4 w-25"><img class="card-img-top" src="${pageContext.request.contextPath}/resources/img/house.jpg"
                                                     alt="Card image cap"
                                                     width="600"></div>
                 </div>
