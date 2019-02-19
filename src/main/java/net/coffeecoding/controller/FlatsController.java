@@ -65,6 +65,7 @@ public class FlatsController {
         List<String> cities = flatService.findDistinctByCity();
         model.addAttribute("cities", cities);
 
+
         model.addAttribute("max", flatService.findMaxPrice());
         model.addAttribute("min", flatService.findMinPrice());
         model.addAttribute("maxFilter", flatService.findMaxPrice());
@@ -170,7 +171,7 @@ public class FlatsController {
         return "new-flat-form";
     }
 
-    @RequestMapping(value = "/16B75935E0785C49DF2C6985C5ED03FA", produces = MediaType.TEXT_PLAIN_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/refresh", produces = MediaType.TEXT_PLAIN_VALUE, method = RequestMethod.GET)
     public ResponseEntity<String> refresh() throws IOException {
 
         List<Flat> flats = flatService.getFlats();

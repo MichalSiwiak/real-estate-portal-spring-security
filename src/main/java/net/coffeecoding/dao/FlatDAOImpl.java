@@ -97,7 +97,10 @@ public class FlatDAOImpl implements FlatDAO {
         Query<Integer> query =
                 currentSession.createQuery("SELECT MAX(f.price) FROM Flat f",
                         Integer.class);
-        return query.getSingleResult();
+        if (query.getSingleResult() != null)
+            return query.getSingleResult();
+        else
+            return 0;
     }
 
     @Override
@@ -106,6 +109,9 @@ public class FlatDAOImpl implements FlatDAO {
         Query<Integer> query =
                 currentSession.createQuery("SELECT MIN(f.price) FROM Flat f",
                         Integer.class);
-        return query.getSingleResult();
+        if (query.getSingleResult() != null)
+            return query.getSingleResult();
+        else
+            return 0;
     }
 }
