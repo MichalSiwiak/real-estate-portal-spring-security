@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -27,6 +26,8 @@ import java.sql.Timestamp;
 import java.util.*;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 
 @Controller
 public class FlatsController {
@@ -35,8 +36,6 @@ public class FlatsController {
     private FlatService flatService;
     @Autowired
     private UsersService usersService;
-    @Autowired
-    private ServletContext servletContext;
 
 
     @GetMapping("/new-flat")
@@ -58,36 +57,59 @@ public class FlatsController {
     @GetMapping("/demo")
     public String getAllFlats(Model model) {
         List<Flat> flats = flatService.getFlats();
+        model.addAttribute("flats", flats);
+
         Filter filter = new Filter();
-        filter.setMinPrice(flatService.findMinPrice());
-        filter.setMaxPrice(flatService.findMaxPrice());
+        model.addAttribute("filter", filter);
+
         List<String> cities = flatService.findDistinctByCity();
         model.addAttribute("cities", cities);
-        model.addAttribute("flats", flats);
-        model.addAttribute("filter", filter);
+
+        model.addAttribute("max", flatService.findMaxPrice());
+        model.addAttribute("min", flatService.findMinPrice());
+        model.addAttribute("maxFilter", flatService.findMaxPrice());
+        model.addAttribute("minFilter", flatService.findMinPrice());
+
         return "flats-list-form";
     }
 
     @PostMapping("/demo")
-    public String submitFilters(@ModelAttribute("filter") Filter filter) {
+    public String submitFilters(@ModelAttribute("filter") Filter filter, Model model) {
 
-        List<Flat> byCityEquals;
-        if (filter.getCity() == "All")
-            byCityEquals = flatService.getFlats();
-        else
+        List<Flat> flats = flatService.getFlats();
+        List<Flat> byTitleLike = flats;
+        List<Flat> byCityEquals = flats;
+
+        if (!filter.getTitle().equals(""))
+            byTitleLike = flatService.findByTitleLike(filter.getTitle());
+
+        List<String> cities = flatService.findDistinctByCity();
+        cities.add("All");
+        model.addAttribute("cities", cities);
+        model.addAttribute("selected", filter.getCity());
+
+
+        if (!(filter.getCity().equals("All") || filter.getCity().equals("")))
             byCityEquals = flatService.findByCityEquals(filter.getCity());
 
-        List<Flat> byTitleLike;
-        if (filter.getTitle() == "")
-            byTitleLike = flatService.getFlats();
-        else
-            byCityEquals = flatService.findByTitleLike(filter.getTitle());
+        model.addAttribute("max", flatService.findMaxPrice());
+        model.addAttribute("min", flatService.findMinPrice());
+        int minFilter = Integer.parseInt(filter.getPriceRange().split(" - ")[0]);
+        int maxFilter = Integer.parseInt(filter.getPriceRange().split(" - ")[1]);
+        model.addAttribute("minFilter", minFilter);
+        model.addAttribute("maxFilter", maxFilter);
+        List<Flat> byPriceBetween = flatService.findByPriceBetween(minFilter, maxFilter);
 
-        List<Flat> byPriceBetween = flatService.findByPriceBetween(filter.getMinPrice(), filter.getMaxPrice());
+        List<Flat> common;
 
+        common = flats
+                .stream()
+                .filter(byTitleLike::contains)
+                .filter(byCityEquals::contains)
+                .filter(byPriceBetween::contains)
+                .collect(toList());
 
-        System.out.println(filter.toString());
-
+        model.addAttribute("flats", common);
 
         return "flats-list-form";
     }
@@ -156,7 +178,7 @@ public class FlatsController {
             flatService.deleteFlat(flat);
         }
 
-        File[] files = new File("/home/michal/Pobrane/flats").listFiles();
+        File[] files = new File("C:\\Users\\msiwiak\\Downloads\\flats").listFiles();
         Map<Integer, String> titles = new HashMap<>();
         Map<Integer, String> contents = new HashMap<>();
 
@@ -183,7 +205,7 @@ public class FlatsController {
         contents.put(4, "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.");
 
 
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 100; i++) {
 
             Flat flat = new Flat();
             byte[] image = Files.readAllBytes(files[new Random().nextInt(files.length)].toPath());
@@ -225,11 +247,11 @@ public class FlatsController {
             g.drawImage(originalImage, 0, 0, width, height, null);
             g.dispose();
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "jpg", baos);
-            baos.flush();
-            resizedImageByteArray = baos.toByteArray();
-            baos.close();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
+            byteArrayOutputStream.flush();
+            resizedImageByteArray = byteArrayOutputStream.toByteArray();
+            byteArrayOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -237,5 +259,6 @@ public class FlatsController {
         return resizedImageByteArray;
     }
 
-
 }
+
+

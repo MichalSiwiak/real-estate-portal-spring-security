@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -7,7 +7,7 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>coffeecoding.net</title>
     <meta name="description"
@@ -47,6 +47,26 @@
             vertical-align: middle !important;
         }
     </style>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#slider-range").slider({
+                range: true,
+                step: 1000,
+                min: ${min},
+                max: ${max},
+                values: [${minFilter}, ${maxFilter}],
+                slide: function (event, ui) {
+                    $("#amount").val(ui.values[0] + " - " + ui.values[1]);
+                }
+            });
+            $("#amount").val($("#slider-range").slider("values", 0) +
+                " - " + $("#slider-range").slider("values", 1));
+        });
+    </script>
 </head>
 
 
@@ -125,7 +145,7 @@
                     <div class="m-0 mt-2 col-md-8 p-2">
                         <h1 class="text-left mt-5"> Real Estate Portal</h1>
                     </div>
-                    <div class="col-md-4 w-25"><img class="card-img-top" src="${pageContext.request.contextPath}/resources/img/house.jpg"
+                    <div class="col-md-4 w-25"><img class="card-img-top" src="resources/img/house.jpg"
                                                     alt="Card image cap"
                                                     width="600"></div>
                 </div>
@@ -156,24 +176,25 @@
 
 
                 <div class="col-md-12 order-md-1 mb-4 p-0">
-                    <form:form modelAttribute="filter" method="POST">
+                    <form:form method="POST" modelAttribute="filter">
                         <div class="row mt-5">
                             <div class="mb-3 col-md-3 text-center"><label>Select title like:</label>
-                                <form:input path="title" type="text" class="form-control text-center rounded-0"/>
+                                <form:input path="title" class="form-control text-center rounded-0"/>
                             </div>
                             <div class="mb-3 col-md-3 text-center"><label>Select city equals:</label>
                                 <form:select path="city" type="text" class="form-control text-center rounded-0">
-                                    <option selected="selected">All</option>
+                                    <option selected="selected">${selected}</option>
                                     <c:forEach var="city" items="${cities}">
                                         <option value=${city}>${city}</option>
                                     </c:forEach>
                                 </form:select>
                             </div>
-                            <div class="mb-3 col-md-3 text-center"><label>Price from (min):</label>
-                                <form:input path="minPrice" type="number" min="1000" class="form-control text-center rounded-0"/>
+                            <div class="mb-3 col-md-3 text-center"><label>Price range:</label>
+                                <form:input path="priceRange" type="text" id="amount" readonly="true"
+                                            class="form-control text-center rounded-0"/>
                             </div>
-                            <div class="mb-3 col-md-3 text-center"><label>Price to (max):</label>
-                                <form:input path="maxPrice" type="number" max="10000000" class="form-control text-center rounded-0"/>
+                            <div class="mb-3 col-md-3 text-center"><label>Change range:</label>
+                                <div class="mt-3" id="slider-range"></div>
                             </div>
                         </div>
                         <hr class="mb-4">

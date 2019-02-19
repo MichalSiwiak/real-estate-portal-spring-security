@@ -2,6 +2,7 @@ package net.coffeecoding.entity;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -129,5 +130,18 @@ public class Flat {
                 ", avatar=" + Arrays.toString(avatar) +
                 ", users=" + users +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flat flat = (Flat) o;
+        return id == flat.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
