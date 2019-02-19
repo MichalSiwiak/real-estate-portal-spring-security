@@ -170,7 +170,7 @@ public class FlatsController {
         return "new-flat-form";
     }
 
-    @RequestMapping(value = "/refresh", produces = MediaType.TEXT_PLAIN_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/16B75935E0785C49DF2C6985C5ED03FA", produces = MediaType.TEXT_PLAIN_VALUE, method = RequestMethod.GET)
     public ResponseEntity<String> refresh() throws IOException {
 
         List<Flat> flats = flatService.getFlats();
@@ -178,7 +178,7 @@ public class FlatsController {
             flatService.deleteFlat(flat);
         }
 
-        File[] files = new File("C:\\Users\\msiwiak\\Downloads\\flats").listFiles();
+        File[] files = new File("/opt/tomcat/webapps/flats/resources/data/flats").listFiles();
         Map<Integer, String> titles = new HashMap<>();
         Map<Integer, String> contents = new HashMap<>();
 

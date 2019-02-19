@@ -128,7 +128,7 @@
                                 <div class="row mt-5">
                                     <div class="col-md-12">
                                         <h5 class="mb-4">
-                                            Enter email to remind your password:
+                                            Enter email to reset your password:
                                         </h5>
                                     </div>
                                     <c:if test="${error != null}">
@@ -156,7 +156,7 @@
                                             </div>
                                             <button type="submit"
                                                     class="btn mt-4 mb-3 rounded btn-lg btn-primary text-light w-100">
-                                                Remind Password
+                                                Reset Password
                                             </button>
                                             <p class="mt-5 mb-0" style=""><a
                                                     href="${pageContext.request.contextPath}/loginPage">Back <i
