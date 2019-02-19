@@ -111,7 +111,8 @@
                     <div class="m-0 mt-2 col-md-8 p-2">
                         <h1 class="text-left mt-5"> Real Estate Portal</h1>
                     </div>
-                    <div class="col-md-4 w-25"><img class="card-img-top" src="${pageContext.request.contextPath}/resources/img/house.jpg"
+                    <div class="col-md-4 w-25"><img class="card-img-top"
+                                                    src="${pageContext.request.contextPath}/resources/img/house.jpg"
                                                     alt="Card image cap"
                                                     width="600"></div>
                 </div>
@@ -151,7 +152,7 @@
                                                                 class="form-control"/>
                                                 </div>
                                             </div>
-                                            <div class="form-group mb-3">
+                                            <div class="form-group mb-2">
                                                 <div class="input-group border-0">
                                                     <div class="input-group-prepend ">
                           <span class="input-group-text">
@@ -160,6 +161,18 @@
                                                     </div>
                                                     <form:password path="password" placeholder="Password ..."
                                                                    class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <div class="input-group border-0">
+                                                    <div class="input-group-prepend ">
+                          <span class="input-group-text">
+                            <i class="fa fa-lock fa-lg text-light" aria-hidden="true"></i>
+                          </span>
+                                                    </div>
+                                                    <input name="repassword" type="password"
+                                                           placeholder="Repeat password ..."
+                                                           class="form-control">
                                                 </div>
                                             </div>
                                             <button type="submit"

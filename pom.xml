@@ -141,6 +141,17 @@
             <artifactId>commons-io</artifactId>
             <version>1.4</version>
         </dependency>
+        <!-- Spring Mail -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>5.0.5.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
     </dependencies>
     <!-- Add support for Maven WAR Plugin -->
     <build>

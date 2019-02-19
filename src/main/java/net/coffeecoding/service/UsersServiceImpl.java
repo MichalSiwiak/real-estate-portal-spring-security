@@ -17,4 +17,10 @@ public class UsersServiceImpl implements UsersService {
     public Users getUser(String username) {
         return usersDAO.getUser(username);
     }
+
+    @Override
+    @Transactional
+    public void saveUser(Users users) {
+        usersDAO.saveUser(users);
+    }
 }

@@ -6,6 +6,7 @@ public interface UsersService {
 
 
     public Users getUser(String username);
+    public void saveUser(Users users);
 
 
 }

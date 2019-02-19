@@ -5,8 +5,12 @@ import java.util.logging.Logger;
 
 import javax.validation.Valid;
 
+import net.coffeecoding.entity.Users;
+import net.coffeecoding.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +32,10 @@ public class RegistrationController {
     private UserDetailsManager userDetailsManager;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private Logger logger = Logger.getLogger(getClass().getName());
+    @Autowired
+    private JavaMailSender emailSender;
+    @Autowired
+    private UsersService usersService;
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
@@ -53,20 +61,37 @@ public class RegistrationController {
         boolean userExists = doesUserExist(email);
 
         if (userExists) {
-            model.addAttribute("success", "The password has been sent to the email.");
+            Users user = usersService.getUser(email);
+            String newPassword = String.valueOf(user.hashCode());
+            String encodedPassword = passwordEncoder.encode(newPassword);
+            encodedPassword = "{bcrypt}" + encodedPassword;
+            user.setPassword(encodedPassword);
+            usersService.saveUser(user);
+
+            try {
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setFrom("info@coffeecoding.net");
+                message.setTo(email);
+                message.setSubject("Real Estate Portal");
+                message.setText("Your new password is: " + newPassword);
+                emailSender.send(message);
+            } catch (Exception e) {
+                model.addAttribute("error", "Some error occurred.");
+            }
+            model.addAttribute("success", "The new password has been sent to your email.");
         } else {
             model.addAttribute("error", "E-mail is not assigned to any user.");
         }
 
+
         return "remind-password-form";
     }
-
 
     @PostMapping("/processRegistrationForm")
     public String processRegistrationForm(
             @Valid @ModelAttribute("user") User user,
             BindingResult theBindingResult,
-            Model theModel) {
+            Model theModel, @RequestParam("repassword") String repassword) {
 
         String userName = user.getUserName();
         logger.info("Processing registration form for: " + userName);
@@ -84,6 +109,13 @@ public class RegistrationController {
             theModel.addAttribute("user", new User());
             theModel.addAttribute("registrationError", "User name already exists.");
             logger.warning("User name already exists.");
+            return "registration-form";
+        }
+
+        if (!user.getPassword().equals(repassword)) {
+            theModel.addAttribute("user", new User());
+            theModel.addAttribute("registrationError", "Passwords must be the same.");
+            logger.warning("Passwords must be the same.");
             return "registration-form";
         }
 
