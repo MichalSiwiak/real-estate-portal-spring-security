@@ -19,3 +19,7 @@
                         </h5>
                         <h5><b>Back End: </b>Java, Spring MVC, Spring Data, Hibernate, MySQL.</h5>
                         <h5><b>Front End: </b>HTML, CSS, JSP.</h5>
+                         <h5>To run application: git clone
+                                                    https://github.com/MichalSiwiak/real-estate-portal-spring-security.git,
+                                                    upload and run application using tomcat application server or similar.</h5>
+                                                <h5>Demo View: <a href="https://www.coffeecoding.net/flats/demo">https://www.coffeecoding.net/flats/demo</a>
