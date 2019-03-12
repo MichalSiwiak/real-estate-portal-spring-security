@@ -108,9 +108,12 @@
             <div class="container">
                 <div class="row">
                     <div class="m-0 mt-2 col-md-8 p-2">
-                        <h1 class="text-left mt-5"> Real Estate Portal</h1>
+                        <h1 class="text-left mt-5 mb-0"> Real Estate Portal</h1>
+                        <p class="lead text-left"><b>To add a new advertisement the user must be logged in! Create your
+                            account or use test user: login=test@gmail.com password=test</b></p>
                     </div>
-                    <div class="col-md-4 w-25"><img class="card-img-top" src="${pageContext.request.contextPath}/resources/img/house.jpg"
+                    <div class="col-md-4 w-25"><img class="card-img-top"
+                                                    src="${pageContext.request.contextPath}/resources/img/house.jpg"
                                                     alt="Card image cap"
                                                     width="600"></div>
                 </div>

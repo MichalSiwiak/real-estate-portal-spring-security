@@ -123,16 +123,17 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h5>This application presents portal implementation of selling flats using spring mvc, spring
-                            security and spring data. The application saves each advertisement in the database with a photo of the apartment
+                            security and spring data. The application saves each advertisement in the database with a
+                            photo of the apartment
                             as blob format. When the user saves a photo, a thumbnail of the image is created for display
-                            on the home page.</h5>
+                            on the home page. The database is refreshed once a day at night with sample data.</h5>
                         <h5><b>To add a new advertisement the user must be logged in.</b></h5>
                         <h5>The application supports operations:</h5>
                         <h5>
                             <ul>
                                 <li>creating new user using spring security database,</li>
                                 <li>logging to portal using spring security database,</li>
-                                <li>resetting the user password if it is forgotten and sending new e-mail,</li>
+                                <li>resetting the user password if it is forgotten and sending new password by e-mail,</li>
                                 <li>adding a new house advertisement,</li>
                                 <li>viewing advertisements for sale of apartments,</li>
                                 <li>filtering advertisements by price range, city and title.</li>
@@ -141,15 +142,58 @@
                         <h5><b>Back End: </b>Java, Spring MVC, Spring Data, Hibernate, MySQL.</h5>
                         <h5><b>Front End: </b>HTML, CSS, JSP.</h5>
                         <h5><b>Database schema: </b></h5>
-                        <img src="resources/img/schema.png">
-                        <h5>To run application: git clone
+                        <center>
+                            <img class="m-0 mb-0 img-fluid" alt="..." src="./resources/img/schema.png" width="800">
+                        </center>
+                        <h5>To run application create database from sql script and, git clone
                             https://github.com/MichalSiwiak/real-estate-portal-spring-security.git,
                             upload and run application using tomcat application server or similar.</h5>
                         <h5>Demo View: <a href="https://www.coffeecoding.net/flats/demo">https://www.coffeecoding.net/flats/demo</a>
                         </h5>
-                        <h5>Controller class:</h5>
+
                     </div>
                 </div>
+                <h5 class="mb-3">SQL script:</h5>
+                <pre><code class="sql">
+CREATE DATABASE  IF NOT EXISTS `realestateportal`;
+
+USE `realestateportal`;
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `username` VARCHAR(50) NOT NULL,
+  `password` VARCHAR(100) NOT NULL,
+  `enabled` boolean not null,
+  `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`username`)
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `authorities`;
+CREATE TABLE `authorities` (
+  `username` varchar(50) NOT NULL,
+  `authority` varchar(50) NOT NULL,
+  UNIQUE KEY `authorities_idx_1` (`username`,`authority`),
+  CONSTRAINT `authorities_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `flat`;
+CREATE TABLE `flat` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NOT NULL,
+  `content` TEXT NOT NULL,
+  `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `price` INT NOT NULL,
+  `surface` INT NOT NULL,
+  `rooms` INT NOT NULL,
+  `city` VARCHAR(200) NOT NULL,
+  `image` longblob,
+  `avatar` longblob,
+  `users` VARCHAR(50),
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`users`) REFERENCES users(username) ON DELETE SET NULL
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+                </code></pre>
+
+                <h5 class="mb-3">Controller class:</h5>
                 <pre><code class="java">
 package net.coffeecoding.controller;
 
