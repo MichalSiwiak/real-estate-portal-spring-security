@@ -154,7 +154,7 @@
                           </span>
                                                     </div>
                                                     <input type="text" name="username" class="form-control"
-                                                           placeholder="Username ...">
+                                                           placeholder="E-mail ...">
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3">
